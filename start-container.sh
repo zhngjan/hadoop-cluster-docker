@@ -9,9 +9,10 @@ sudo docker rm -f hadoop-master &> /dev/null
 echo "start hadoop-master container..."
 sudo docker run -itd \
                 --net=hadoop \
-                -p 50070:50070 \
                 -p 8088:8088 \
-                -v ~/data:/data \
+                -p 50070:50070 \
+                -p 9000:9000 \
+                -v ~/data/master:/root/data \
                 --name hadoop-master \
                 --hostname hadoop-master \
                 kiwenlau/hadoop:1.0 &> /dev/null
@@ -25,6 +26,7 @@ do
 	echo "start hadoop-slave$i container..."
 	sudo docker run -itd \
 	                --net=hadoop \
+                    -v ~/data/slave$i:/root/data \
 	                --name hadoop-slave$i \
 	                --hostname hadoop-slave$i \
 	                kiwenlau/hadoop:1.0 &> /dev/null
